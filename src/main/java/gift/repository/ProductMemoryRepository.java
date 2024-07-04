@@ -10,11 +10,10 @@ import java.util.Map;
 public class ProductMemoryRepository implements ProductRepository {
 
     private final Map<Long, Product> products = new HashMap<>();
-
     private Long sequentialId = 1L;
 
     public Product save(Product product) {
-        Product result = createProductWithId(sequentialId, product);
+        var result = createProductWithId(sequentialId, product);
         return saveProduct(result);
     }
 

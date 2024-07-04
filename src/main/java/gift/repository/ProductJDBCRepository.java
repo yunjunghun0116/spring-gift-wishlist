@@ -34,7 +34,7 @@ public class ProductJDBCRepository implements ProductRepository {
     }
 
     public Product save(Product product) {
-        Long id = insertAndReturnId(product);
+        var id = insertAndReturnId(product);
         return createProductWithId(id, product);
     }
 
@@ -56,7 +56,7 @@ public class ProductJDBCRepository implements ProductRepository {
 
     public List<Product> findAll() {
         var sql = "select id, name, price, image_url from product";
-        List<Product> products = jdbcTemplate.query(
+        var products = jdbcTemplate.query(
                 sql, productRowMapper);
         return products;
     }

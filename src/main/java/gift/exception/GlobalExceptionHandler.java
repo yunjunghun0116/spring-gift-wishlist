@@ -27,12 +27,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<String> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
         BindingResult bindingResult = exception.getBindingResult();
-
         StringBuilder builder = new StringBuilder();
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
             builder.append(fieldError.getDefaultMessage());
         }
-
         return ResponseEntity.badRequest().body(builder.toString());
     }
 }

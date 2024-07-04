@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 public class ProductOptionJDBCRepository implements ProductOptionRepository {
+
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
@@ -32,7 +33,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     }
 
     public ProductOption save(ProductOption productOption) {
-        Long id = insertAndReturnId(productOption);
+        var id = insertAndReturnId(productOption);
         return createProductOptionWithId(id, productOption);
     }
 
@@ -54,7 +55,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
 
     public List<ProductOption> findAll(Long productId) {
         var sql = "select id, product_id, name, additional_price from product_option where product_id = ?";
-        List<ProductOption> products = jdbcTemplate.query(
+        var products = jdbcTemplate.query(
                 sql, optionRowMapper, productId);
         return products;
     }
