@@ -1,12 +1,12 @@
 package gift.service.auth;
 
-import gift.controller.auth.AuthInterceptor;
 import gift.dto.LoginRequest;
 import gift.dto.RegisterRequest;
 import gift.exception.DuplicatedEmailException;
 import gift.exception.InvalidLoginInfoException;
 import gift.model.MemberRole;
 import gift.service.MemberService;
+import gift.utils.AuthTestUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,15 +21,15 @@ class AuthServiceTest {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private AuthInterceptor authInterceptor;
+    private AuthTestUtils authTestUtils;
 
     @Test
     @DisplayName("회원가입 시도하기 - 성공")
     void registerSuccess() {
         var registerRequest = new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBER");
         var auth = authService.register(registerRequest);
-        var id = authInterceptor.getMemberIdWithToken(auth.token());
-        var role = authInterceptor.getMemberRoleWithToken(auth.token());
+        var id = authTestUtils.getMemberIdWithToken(auth.token());
+        var role = authTestUtils.getMemberRoleWithToken(auth.token());
 
         Assertions.assertThat(role).isEqualTo(MemberRole.MEMBER);
 
@@ -41,7 +41,7 @@ class AuthServiceTest {
     void registerFailWithDuplicatedEmail() {
         var registerRequest = new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBER");
         var auth = authService.register(registerRequest);
-        var id = authInterceptor.getMemberIdWithToken(auth.token());
+        var id = authTestUtils.getMemberIdWithToken(auth.token());
 
         Assertions.assertThatThrownBy(() -> authService.register(registerRequest)).isInstanceOf(DuplicatedEmailException.class);
 
@@ -56,8 +56,8 @@ class AuthServiceTest {
 
         var loginRequest = new LoginRequest("test@naver.com", "testPassword");
         var auth = authService.login(loginRequest);
-        var id = authInterceptor.getMemberIdWithToken(auth.token());
-        var role = authInterceptor.getMemberRoleWithToken(auth.token());
+        var id = authTestUtils.getMemberIdWithToken(auth.token());
+        var role = authTestUtils.getMemberRoleWithToken(auth.token());
 
         Assertions.assertThat(role).isEqualTo(MemberRole.MEMBER);
 
@@ -73,7 +73,8 @@ class AuthServiceTest {
 
         Assertions.assertThatThrownBy(() -> authService.login(loginRequest)).isInstanceOf(InvalidLoginInfoException.class);
 
-        var id = authInterceptor.getMemberIdWithToken(auth.token());
+        var id = authTestUtils.getMemberIdWithToken(auth.token());
+
         memberService.deleteMember(id);
     }
 }

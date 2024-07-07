@@ -30,7 +30,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    public Long getMemberIdWithToken(String token) {
+    private Long getMemberIdWithToken(String token) {
         var id = Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()
@@ -40,7 +40,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         return Long.parseLong(id);
     }
 
-    public MemberRole getMemberRoleWithToken(String token) {
+    private MemberRole getMemberRoleWithToken(String token) {
         var role = Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()
