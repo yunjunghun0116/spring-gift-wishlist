@@ -33,7 +33,7 @@ public class AuthTestReflectionComponent {
             MemberRole memberRole = (MemberRole) method.invoke(authInterceptor, token);
             return memberRole;
         } catch (Exception e) {
-            throw new RuntimeException("토큰으로 ROLE 복호화하는 과정에서 예외 발생");
+            throw new RuntimeException("토큰으로 ROLE 복호화하는 과정에서 예외 발생: " + e.getMessage(), e);
         }
     }
 }
