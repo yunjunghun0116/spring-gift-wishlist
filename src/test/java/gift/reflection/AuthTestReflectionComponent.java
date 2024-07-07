@@ -1,4 +1,4 @@
-package gift.utils;
+package gift.reflection;
 
 import gift.controller.auth.AuthInterceptor;
 import gift.model.MemberRole;
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 
 @Component
-public class AuthTestUtils {
+public class AuthTestReflectionComponent {
 
     private AuthInterceptor authInterceptor;
 
-    public AuthTestUtils(AuthInterceptor authInterceptor) {
+    public AuthTestReflectionComponent(AuthInterceptor authInterceptor) {
         this.authInterceptor = authInterceptor;
     }
 

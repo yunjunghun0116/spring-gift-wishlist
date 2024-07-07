@@ -5,7 +5,7 @@ import com.jayway.jsonpath.JsonPath;
 import gift.dto.LoginRequest;
 import gift.dto.RegisterRequest;
 import gift.service.MemberService;
-import gift.utils.AuthTestUtils;
+import gift.reflection.AuthTestReflectionComponent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ class AuthControllerTest {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private AuthTestUtils authTestUtils;
+    private AuthTestReflectionComponent authTestReflectionComponent;
 
     @Test
     @DisplayName("빈 이름으로 회원가입 요청하기")
@@ -125,7 +125,7 @@ class AuthControllerTest {
         var responseContent = result.getResponse().getContentAsString();
         var token = JsonPath.parse(responseContent).read("$.token").toString();
 
-        memberService.deleteMember(authTestUtils.getMemberIdWithToken(token));
+        memberService.deleteMember(authTestReflectionComponent.getMemberIdWithToken(token));
     }
 
     @Test
@@ -143,6 +143,6 @@ class AuthControllerTest {
         var responseContent = result.getResponse().getContentAsString();
         var token = JsonPath.parse(responseContent).read("$.token").toString();
 
-        memberService.deleteMember(authTestUtils.getMemberIdWithToken(token));
+        memberService.deleteMember(authTestReflectionComponent.getMemberIdWithToken(token));
     }
 }
